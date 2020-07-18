@@ -42,7 +42,7 @@ namespace MyCalendar
             if (parseName() == 0 || parseTime() == 0)
             {
                 ExceptionForm form = new ExceptionForm();
-                form.label3.Text = "Fill the lables according to example";
+                form.label3.Text = "Fill the lables correctly";
                 form.Show();
             }
             else
