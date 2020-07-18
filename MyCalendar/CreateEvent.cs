@@ -38,9 +38,11 @@ namespace MyCalendar
         public int day = 0, month = 0;
         private void button2_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrEmpty(textBox1.Text))
+            if (parseName() == 0 || parseTime() == 0)
             {
-
+                ExceptionForm form = new ExceptionForm();
+                form.label3.Text = "Fill the lables according to example";
+                form.Show();
             }
             else
             {
@@ -62,7 +64,25 @@ namespace MyCalendar
                 this.DialogResult = DialogResult.OK;
             }
         }
-
+        private int parseName()
+        {
+            if (textBox1.Text == "") return 0;
+            else return 1;
+        }
+        private int parseTime()
+        {
+            int hour = 0, minute = 0;
+            try
+            {
+                hour = Convert.ToInt32((textBox2.Text).Substring(0, 2));
+                minute = Convert.ToInt32((textBox2.Text).Substring(3, 2));
+                return 1;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
         private void onClick(object sender, EventArgs e)
         {
             InfoForm form = new InfoForm();
