@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -62,7 +63,25 @@ namespace MyCalendar
                 eventtest.Margin = new Padding(0);
                 eventtest.Click += new EventHandler(onClick);
                 this.DialogResult = DialogResult.OK;
+                addEventToDataBase();
             }
+        }
+        private void addEventToDataBase()
+        {
+            DataBase db = new DataBase();
+            MySqlCommand command = new MySqlCommand("INSERT INTO `eventdb` (`id`, `name`, `time`, `date`, `tip`) VALUES (NULL,@uName,@uTime,@uDate,@uTip)", db.getConnection());
+            command.Parameters.Add("@uName", MySqlDbType.VarChar).Value = textBox1.Text;
+            command.Parameters.Add("@uTime", MySqlDbType.VarChar).Value = textBox2.Text;
+            command.Parameters.Add("@uDate", MySqlDbType.VarChar).Value = String.Format($"{dateTimePicker1.Value.Day}, {dateTimePicker1.Value.ToString("MMMM")}");
+            command.Parameters.Add("@uTip", MySqlDbType.VarChar).Value = richTextBox1.Text;
+            db.startConnection();
+            if (command.ExecuteNonQuery() == 1)
+            {
+                ExceptionForm form = new ExceptionForm();
+                form.label3.Text = "Event was added sucessful";
+                form.Show();
+            }
+            db.closeConnection();
         }
         private int parseName()
         {
