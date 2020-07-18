@@ -8,7 +8,7 @@ namespace MyCalendar
 {
     class DataBase
     {
-        MySqlConnection connection = new MySqlConnection("server=127.0.0.1;port=3306;username=root;password=;database=eventdb");
+        MySqlConnection connection = new MySqlConnection("server=127.0.0.1;port=3306;username=root;password=;database=users");
         public void startConnection()
         {
             if (connection.State == System.Data.ConnectionState.Closed)
