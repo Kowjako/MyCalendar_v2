@@ -36,7 +36,7 @@ namespace MyCalendar
                 this.Top += e.Y - lastpoint.Y;
             }
         }
-        public int day = 0, month = 0;
+        public int day = 0, month = 0, year = 0;
         private void button2_Click(object sender, EventArgs e)
         {
             if (parseName() == 0 || parseTime() == 0)
@@ -49,6 +49,7 @@ namespace MyCalendar
             {
                 day = dateTimePicker1.Value.Day;
                 month = dateTimePicker1.Value.Month;
+                year = dateTimePicker1.Value.Year;
                 eventtest = new Label();
                 eventtest.AutoSize = false;
                 eventtest.Name = $"eventtest";
@@ -69,11 +70,12 @@ namespace MyCalendar
         private void addEventToDataBase()
         {
             DataBase db = new DataBase();
-            MySqlCommand command = new MySqlCommand("INSERT INTO `eventdb` (`id`, `name`, `time`, `date`, `tip`) VALUES (NULL,@uName,@uTime,@uDate,@uTip)", db.getConnection());
+            MySqlCommand command = new MySqlCommand("INSERT INTO `eventdb` (`id`, `name`, `time`, `date`, `month`, `tip`) VALUES (NULL,@uName,@uTime,@uDate,@uMonth,@uTip)", db.getConnection());
             command.Parameters.Add("@uName", MySqlDbType.VarChar).Value = textBox1.Text;
             command.Parameters.Add("@uTime", MySqlDbType.VarChar).Value = textBox2.Text;
-            command.Parameters.Add("@uDate", MySqlDbType.VarChar).Value = String.Format($"{dateTimePicker1.Value.Day}, {dateTimePicker1.Value.ToString("MMMM")}");
+            command.Parameters.Add("@uDate", MySqlDbType.VarChar).Value = String.Format($"{dateTimePicker1.Value.Day}");
             command.Parameters.Add("@uTip", MySqlDbType.VarChar).Value = richTextBox1.Text;
+            command.Parameters.Add("@uMonth", MySqlDbType.VarChar).Value = dateTimePicker1.Value.ToString("MMMM");
             db.startConnection();
             if (command.ExecuteNonQuery() == 1)
             {

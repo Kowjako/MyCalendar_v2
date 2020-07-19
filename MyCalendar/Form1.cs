@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -21,6 +22,11 @@ namespace MyCalendar
             GeneratePanel();
             DisplayCurrentDate();
             refreshTime_Tick(this,null);
+            List<Label> listlabel = addSQLEvents(currentDay.ToString("MMMM"));
+            for (int i = 0; i < listlabel.Count; i++)
+            {
+                listFlDay[Convert.ToInt32(listlabel[i].Name) + GetFirstDay() - 2].Controls.Add(listlabel[i]);
+            }
         }
         private Point lastpoint;
         private void panel1_MouseDown(object sender, MouseEventArgs e)
@@ -116,11 +122,75 @@ namespace MyCalendar
         {
             currentDay = currentDay.AddMonths(-1);
             DisplayCurrentDate();
+            if (DateTime.Today.Year == currentDay.Year)
+            {
+                List<Label> listlabel = addSQLEvents(currentDay.ToString("MMMM"));
+                for (int i = 0; i < listlabel.Count; i++)
+                {
+                    listFlDay[Convert.ToInt32(listlabel[i].Name) + GetFirstDay() - 2].Controls.Add(listlabel[i]);
+                }
+            }
         }
         private void NextMonth()
         {
             currentDay = currentDay.AddMonths(1);
             DisplayCurrentDate();
+            if (DateTime.Today.Year == currentDay.Year)
+            {
+                List<Label> listlabel = addSQLEvents(currentDay.ToString("MMMM"));
+                for (int i = 0; i < listlabel.Count; i++)
+                {
+                    listFlDay[Convert.ToInt32(listlabel[i].Name) + GetFirstDay() - 2].Controls.Add(listlabel[i]);
+                }
+            }
+        }
+        private Random rnd = new Random();
+        private List<Label> addSQLEvents(string curmonth)
+        {
+            List<Label> labellist = new List<Label>();
+            DataBase db = new DataBase();
+            DataTable dt = new DataTable();
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            MySqlCommand command = new MySqlCommand("SELECT * FROM `eventdb` WHERE `month`=@uMonth", db.getConnection());
+            command.Parameters.Add("@uMonth", MySqlDbType.VarChar).Value = curmonth; 
+            adapter.SelectCommand = command;
+            adapter.Fill(dt);
+            DataRow[] rows = dt.Select();
+            for (int i = 0; i < rows.Length; i++)
+            {
+                Label eventtest;
+                string text = rows[i]["name"].ToString();
+                string time = rows[i]["time"].ToString();
+                string date = rows[i]["date"].ToString();
+                string month = rows[i]["month"].ToString();
+                string tip = rows[i]["tip"].ToString();
+                eventtest = new Label();
+                eventtest.AutoSize = false;
+                eventtest.Name = date;
+                eventtest.TextAlign = ContentAlignment.MiddleRight;
+                eventtest.Size = new Size(115, 23);
+                eventtest.Text = text;
+                eventtest.ForeColor = Color.Black;
+                eventtest.BackColor = Color.FromArgb(rnd.Next(0,255),rnd.Next(0,255),rnd.Next(0,255));
+                eventtest.Font = new Font("Trebuchet MS", 10);
+                eventtest.BorderStyle = BorderStyle.FixedSingle;
+                eventtest.TextAlign = ContentAlignment.MiddleCenter;
+                eventtest.Margin = new Padding(0);
+                eventtest.Click += delegate
+                {
+                    InfoForm form = new InfoForm();
+                    form.label6.Text = text;
+                    form.label7.Text = String.Format($"{date}, {month}");
+                    form.label8.Text = time;
+                    form.label9.Text = tip;
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+
+                    }
+                };
+                labellist.Add(eventtest);
+            }
+            return labellist;
         }
         private void button3_Click(object sender, EventArgs e)
         {
@@ -135,6 +205,11 @@ namespace MyCalendar
         {
             currentDay = DateTime.Today;
             DisplayCurrentDate();
+            List<Label> listlabel = addSQLEvents(currentDay.ToString("MMMM"));
+            for (int i = 0; i < listlabel.Count; i++)
+            {
+                listFlDay[Convert.ToInt32(listlabel[i].Name) + GetFirstDay() - 2].Controls.Add(listlabel[i]);
+            }
         }
         private int GetFirstDay()
         {
@@ -157,9 +232,9 @@ namespace MyCalendar
             CreateEvent form = new CreateEvent();
             if(form.ShowDialog()==DialogResult.OK)
             {
-                listFlDay[form.day+2].Controls.Add(form.eventtest);
+                if (currentData.Month == form.month && currentData.Year == form.year)
+                listFlDay[form.day + GetFirstDay() - 2].Controls.Add(form.eventtest);
             }
-
         }
         private void Form1_Load(object sender, EventArgs e)
         {
