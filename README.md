@@ -7,3 +7,4 @@ Program przedstawia działanie kalendarza, dzień dzisiejszy jest podświetlany,
 Do każdego eventu należy swoja data (tzn. dzień, godzina), możliwe dodawanie tooltipa, oraz color
 # BazaDanych
 Każdy event jest przy tworzeniu zapisywany do Bazy Danych, skąd po ponownym uruchomieniu programu, lub przy nacisnięciu przycisków następny/poprzedni miesiąc parsuje odpowiedne eventy
+https://user-images.githubusercontent.com/19534189/87874459-48ca0f80-c9ca-11ea-8c66-5fcce329d28b.png
