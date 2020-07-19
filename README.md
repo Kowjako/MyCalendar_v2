@@ -8,5 +8,4 @@ Program przedstawia działanie kalendarza, dzień dzisiejszy jest podświetlany,
 # Event
 Do każdego eventu należy swoja data (tzn. dzień, godzina), możliwe dodawanie tooltipa, oraz color, po nacisnięciu na jakikolwiek event, jest wyświetlana informacja o tym evencie.
 # BazaDanych
-Każdy event jest przy tworzeniu zapisywany do Bazy Danych, skąd po ponownym uruchomieniu programu, lub przy nacisnięciu przycisków następny/poprzedni miesiąc parsuje odpowiedne eventy
-
+Każdy event jest przy tworzeniu zapisywany do Bazy Danych, skąd po ponownym uruchomieniu programu, lub przy nacisnięciu przycisków następny/poprzedni miesiąc parsuje odpowiedne eventy. Możliwe podłączenie do własnej bazy danych, patrz plik DataBase.cs
