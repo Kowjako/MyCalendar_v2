@@ -69,13 +69,15 @@ namespace MyCalendar
         }
         private void addEventToDataBase()
         {
+            Color tmpcolor = Color.FromArgb(color.R, color.G, color.B);
             DataBase db = new DataBase();
-            MySqlCommand command = new MySqlCommand("INSERT INTO `eventdb` (`id`, `name`, `time`, `date`, `month`, `tip`) VALUES (NULL,@uName,@uTime,@uDate,@uMonth,@uTip)", db.getConnection());
+            MySqlCommand command = new MySqlCommand("INSERT INTO `eventdb` (`id`, `name`, `time`, `date`, `month`, `tip`, `color`) VALUES (NULL,@uName,@uTime,@uDate,@uMonth,@uTip,@uColor)", db.getConnection());
             command.Parameters.Add("@uName", MySqlDbType.VarChar).Value = textBox1.Text;
             command.Parameters.Add("@uTime", MySqlDbType.VarChar).Value = textBox2.Text;
             command.Parameters.Add("@uDate", MySqlDbType.VarChar).Value = String.Format($"{dateTimePicker1.Value.Day}");
             command.Parameters.Add("@uTip", MySqlDbType.VarChar).Value = richTextBox1.Text;
             command.Parameters.Add("@uMonth", MySqlDbType.VarChar).Value = dateTimePicker1.Value.ToString("MMMM");
+            command.Parameters.Add("@uColor", MySqlDbType.VarChar).Value = tmpcolor.ToString();
             db.startConnection();
             if (command.ExecuteNonQuery() == 1)
             {

@@ -145,6 +145,15 @@ namespace MyCalendar
             }
         }
         private Random rnd = new Random();
+        private Color getColorFromString(string colortmp)
+        {
+            string[] tmp = colortmp.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            string r = tmp[1].Substring(3, tmp[1].Length - 3);
+            string g = tmp[2].Substring(3, tmp[2].Length - 3);
+            string b = (tmp[3].Substring(3, tmp[3].Length - 3)).Substring(0, tmp[3].Length - 4);
+            Color tmpcolor = Color.FromArgb(Convert.ToInt32(r), Convert.ToInt32(g), Convert.ToInt32(b));
+            return tmpcolor;
+        }
         private List<Label> addSQLEvents(string curmonth)
         {
             List<Label> labellist = new List<Label>();
@@ -164,6 +173,7 @@ namespace MyCalendar
                 string date = rows[i]["date"].ToString();
                 string month = rows[i]["month"].ToString();
                 string tip = rows[i]["tip"].ToString();
+                string color = rows[i]["color"].ToString();
                 eventtest = new Label();
                 eventtest.AutoSize = false;
                 eventtest.Name = date;
@@ -171,7 +181,7 @@ namespace MyCalendar
                 eventtest.Size = new Size(115, 23);
                 eventtest.Text = text;
                 eventtest.ForeColor = Color.Black;
-                eventtest.BackColor = Color.FromArgb(rnd.Next(0,255),rnd.Next(0,255),rnd.Next(0,255));
+                eventtest.BackColor = getColorFromString(color);
                 eventtest.Font = new Font("Trebuchet MS", 10);
                 eventtest.BorderStyle = BorderStyle.FixedSingle;
                 eventtest.TextAlign = ContentAlignment.MiddleCenter;
