@@ -2,6 +2,7 @@
 Program przedstawia działanie kalendarza, dzień dzisiejszy jest podświetlany, są przyciski następny/poprzedni miesiąc oraz przycisk today
 # Możliwości
 - Dodawanie eventów
+- Usuwanie eventów
 # Event
 Do każdego eventu należy swoja data (tzn. dzień, godzina), możliwe dodawanie tooltipa, oraz color
 # BazaDanych
