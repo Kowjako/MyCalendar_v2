@@ -1,5 +1,5 @@
 # MyCalendar_v2
-Program przedstawia działanie kalendarza, dzień dzisiejszy jest podświetlany, są przyciski następny/poprzedni miesiąc oraz przycisk today, design jest pisany od zera
+Program przedstawia działanie kalendarza, dzień dzisiejszy jest podświetlany, są przyciski następny/poprzedni miesiąc oraz przycisk today, design oraz logika pisane od zera
 ![screen](https://user-images.githubusercontent.com/19534189/87874459-48ca0f80-c9ca-11ea-8c66-5fcce329d28b.png)
 # Możliwości
 Dodawanie eventów
